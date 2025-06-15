@@ -19,7 +19,7 @@ jobs:
 
       - name: Clone Custom Armbian Build Repo
         run: |
-          git clone --depth 1 branch=odin2 https://github.com/FantasyGmm/build.git 
+          git clone --depth=1 --branch=odin2 https://github.com/FantasyGmm/build
 
       - name: Build Armbian Cinnamon Image
         working-directory: build
