@@ -8,6 +8,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:  
+      - name: Install deps
+        run: 
+            apt-get update\
+            apt-get install -y software-properties-common
       - name: Clone Custom Armbian Build Repo
         run: |
           git clone --depth 1 --branch=odin2 https://github.com/FantasyGmm/build.git 
