@@ -1,0 +1,37 @@
+name: Build Armbian for AYN Odin2
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y git curl wget gcc g++ make \
+            bc bison flex libssl-dev libncurses5-dev \
+            libncursesw5-dev libelf-dev libudev-dev \
+            libpci-dev libiberty-dev python3 python3-pip \
+            python-is-python3 qemu-user-static binfmt-support
+
+      - name: Clone Custom Armbian Build Repo
+        run: |
+          git clone --depth 1 branch=odin2 https://github.com/FantasyGmm/build.git 
+
+      - name: Build Armbian Cinnamon Image
+        working-directory: build
+        run: |
+          ./compile.sh BOARD=ayn-odin2 BRANCH=current RELEASE=noble \
+            BUILD_MINIMAL=no BUILD_DESKTOP=yes DESKTOP_ENVIRONMENT=cinnamon \
+            KERNEL_ONLY=no KERNEL_CONFIGURE=no
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: armbian-ayn-odin2-cinnamon
+          path: |
+            armbian-build/output/images/*.img*
+            armbian-build/output/debs/*.deb
