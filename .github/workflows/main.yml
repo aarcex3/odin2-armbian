@@ -21,17 +21,20 @@ jobs:
         run: |
           git clone --depth=1 --branch=odin2 https://github.com/FantasyGmm/build
 
-      - name: Build Armbian Cinnamon Image
+      - name: Build Armbian Image
         working-directory: build
         run: |
-          ./compile.sh BOARD=ayn-odin2 BRANCH=current RELEASE=noble \
-            BUILD_MINIMAL=no BUILD_DESKTOP=yes DESKTOP_ENVIRONMENT=cinnamon \
-            KERNEL_ONLY=no KERNEL_CONFIGURE=no
+          ./compile.sh BOARD=ayn-odin2 \
+            BRANCH=current \
+            RELEASE=noble \
+            BUILD_MINIMAL=yes \
+            BUILD_DESKTOP=no \
+            KERNEL_CONFIGURE=no
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: armbian-ayn-odin2-cinnamon
+          name: armbian-ayn-odin2
           path: |
             armbian-build/output/images/*.img*
             armbian-build/output/debs/*.deb
